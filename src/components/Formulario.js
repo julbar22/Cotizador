@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 const Campo = styled.div`
@@ -20,13 +20,48 @@ const InputRadio = styled.input`
     margin: 0 1rem;
 `;
 
+const Boton = styled.button`
+    background-color: #00838F;
+    font-size: 16px;
+    width: 100%;
+    padding: 1rem;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    transition: background-color .3s ease;
+    margin-top: 2rem;
+    &:hover {
+        background-color: #26C6DA;
+        cursor: pointer;
+    }
+`;
+
 const Formulario = () => {
+
+    const [cotizador,setCotizador] = useState({
+        marca: '',
+        year: '',
+        plan:''
+    });
+
+    const updateCotizador = (e) =>{
+        console.log(e)
+        let nuevoCotizador = {...cotizador,
+            [e.target.name]:e.target.value}
+        setCotizador(nuevoCotizador);
+    }
+    
+
+    let {marca,year,plan} = cotizador;
     return (
         <form>
             <Campo>
                 <Label>Marca</Label>
                 <Select
                     name="marca"
+                    value={marca}
+                    onChange={updateCotizador}
                 >
                     <option value="">-- Seleccione --</option>
                     <option value="americano">Americano</option>
@@ -39,6 +74,8 @@ const Formulario = () => {
                 <Label>Año</Label>
                 <Select
                     name="year"
+                    value={year}
+                    onChange={updateCotizador}
                 >
                     <option value="">-- Seleccione --</option>
                     <option value="2021">2021</option>
@@ -60,14 +97,19 @@ const Formulario = () => {
                     type="radio"
                     name="plan"
                     value="basico"
+                    checked={plan=='basico'}
+                    onChange={updateCotizador}
                 /> Básico
 
                 <InputRadio
                     type="radio"
                     name="plan"
                     value="completo"
+                    checked={plan=='completo'}
+                    onChange={updateCotizador}
                 /> Completo
             </Campo>
+            <Boton type="submit">Cotizar</Boton>
         </form>
     );
 };
